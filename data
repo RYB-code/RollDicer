@@ -1,7 +1,7 @@
 // Function to send data (dice roll result) to Google Sheets
 function sendToGoogleSheets(diceType, rollResult) {
     // This is where you use the Deployment URL from your Google Apps Script.
-    var url = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec";  // Replace with YOUR actual URL
+    var url = "https://script.google.com/macros/s/AKfycbzjN1V6DTc05Z6XSUCWFQ4BLoOPca3C3Surm6EruLtXVaWN8zOoc8SiAAWedkoEfEjC/exec";  // Replace with YOUR actual URL
 
     var data = {
         diceType: diceType,
