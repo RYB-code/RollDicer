@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dice Roller with Percentage (Host Only)</title>
+    <title>Dice Roller with Probability</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -95,14 +95,24 @@
             historyDiv.appendChild(newHistoryItem);
         }
 
-        // This function will only be executed when the host sets the probability
-        function setHostSettings(probability) {
-            hostProbability = probability;
-            document.getElementById('hostSettings').style.display = "block";  // Show host settings to the host only
+        // Function to check if the user is the host (via URL parameter)
+        function checkHost() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('host') && urlParams.get('host') === 'true') {
+                // If URL has ?host=true, show the host settings
+                document.getElementById('hostSettings').style.display = 'block';
+                // Set up an event listener to update the hostProbability from the input field
+                document.getElementById('probability').addEventListener('input', function() {
+                    hostProbability = parseInt(document.getElementById('probability').value);
+                });
+            } else {
+                // Otherwise, hide the host settings
+                document.getElementById('hostSettings').style.display = 'none';
+            }
         }
 
-        // You can set the host settings manually for now (e.g., you can link it to the backend if you need to)
-        setHostSettings(16);  // Set to default 16% for testing purposes
+        // Check if the user is the host
+        checkHost();
     </script>
 </body>
 </html>
