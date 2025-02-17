@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dice Roller with Percentage (Host Only)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        #history {
+            margin-top: 20px;
+        }
+
+        /* Style for mobile and tablet responsiveness */
+        @media (max-width: 768px) {
+            body {
+                font-size: 16px;
+            }
+
+            button {
+                width: 100%;
+                font-size: 18px;
+            }
+
+            select, input {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Custom Dice Roller</h1>
+    <p>Select the type of dice and set probabilities:</p>
+
+    <!-- Host settings (hidden for players) -->
+    <div id="hostSettings" style="display: none;">
+        <label for="diceType">Dice Type: </label>
+        <select id="diceType">
+            <option value="6">6-sided (d6)</option>
+            <option value="20">20-sided (d20)</option>
+            <option value="10">10-sided (d10)</option>
+        </select><br><br>
+
+        <label for="probability">Custom Probability for 1 (in %): </label>
+        <input type="number" id="probability" value="16" min="1" max="100"><br><br>
+    </div>
+
+    <!-- Player interface -->
+    <button onclick="rollDice()">Roll Dice</button>
+
+    <h3>Roll Result: <span id="result">-</span></h3>
+
+    <h3>Roll History:</h3>
+    <div id="history"></div>
+
+    <script>
+        // Host-only variable for controlling probability
+        let hostProbability = 16;
+
+        // Function to roll the dice with customizable probabilities
+        function rollDice() {
+            // Get dice type (d6, d20, etc.)
+            var diceType = parseInt(document.getElementById('diceType')?.value || 6);
+
+            // Use the host-controlled probability
+            var customProbability = hostProbability;
+            var threshold = customProbability / 100;
+
+            // Generate a random number between 0 and 1 to apply probability
+            var randomChance = Math.random();
+            var result;
+
+            if (randomChance < threshold) {
+                // If the random chance is below the threshold, result is 1
+                result = 1;
+            } else {
+                // Otherwise, roll the dice normally
+                result = Math.floor(Math.random() * diceType) + 1;
+            }
+
+            // Display the result
+            document.getElementById('result').innerText = result;
+
+            // Record the roll in history
+            recordHistory(result);
+        }
+
+        // Function to record the roll in history
+        function recordHistory(result) {
+            var historyDiv = document.getElementById('history');
+            var newHistoryItem = document.createElement('p');
+            newHistoryItem.innerText = `Rolled: ${result}`;
+            historyDiv.appendChild(newHistoryItem);
+        }
+
+        // This function will only be executed when the host sets the probability
+        function setHostSettings(probability) {
+            hostProbability = probability;
+            document.getElementById('hostSettings').style.display = "block";  // Show host settings to the host only
+        }
+
+        // You can set the host settings manually for now (e.g., you can link it to the backend if you need to)
+        setHostSettings(16);  // Set to default 16% for testing purposes
+    </script>
+</body>
+</html>
