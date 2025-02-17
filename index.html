@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dice Roller with Probability</title>
+    <title>Dice Roller with Animation</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -11,6 +11,42 @@
 
         #history {
             margin-top: 20px;
+        }
+
+        #dice {
+            font-size: 100px;
+            margin: 20px;
+            display: inline-block;
+            padding: 30px;
+            border-radius: 10px;
+            background-color: #f0f0f0;
+            text-align: center;
+            width: 120px;
+            height: 120px;
+            line-height: 120px;
+            font-weight: bold;
+            color: #333;
+            border: 2px solid #333;
+            transition: transform 1s ease-in-out;
+        }
+
+        /* Dice rolling animation */
+        @keyframes roll {
+            0% {
+                transform: rotate(0deg);
+            }
+            25% {
+                transform: rotate(90deg);
+            }
+            50% {
+                transform: rotate(180deg);
+            }
+            75% {
+                transform: rotate(270deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         /* Style for mobile and tablet responsiveness */
@@ -32,22 +68,20 @@
 </head>
 <body>
     <h1>Custom Dice Roller</h1>
-    <p>Select the type of dice and set probabilities:</p>
+    <p>Select the type of dice to roll:</p>
 
-    <!-- Host settings (hidden for players) -->
-    <div id="hostSettings" style="display: none;">
-        <label for="diceType">Dice Type: </label>
-        <select id="diceType">
-            <option value="6">6-sided (d6)</option>
-            <option value="20">20-sided (d20)</option>
-            <option value="10">10-sided (d10)</option>
-        </select><br><br>
+    <!-- Dice Type Selector -->
+    <label for="diceType">Dice Type: </label>
+    <select id="diceType">
+        <option value="6">6-sided (d6)</option>
+        <option value="20">20-sided (d20)</option>
+        <option value="10">10-sided (d10)</option>
+    </select><br><br>
 
-        <label for="probability">Custom Probability for 1 (in %): </label>
-        <input type="number" id="probability" value="16" min="1" max="100"><br><br>
-    </div>
+    <!-- Dice Display -->
+    <div id="dice">?</div>
 
-    <!-- Player interface -->
+    <!-- Roll Button -->
     <button onclick="rollDice()">Roll Dice</button>
 
     <h3>Roll Result: <span id="result">-</span></h3>
@@ -56,38 +90,28 @@
     <div id="history"></div>
 
     <script>
-        // Host-only variable for controlling probability
-        let hostProbability = 16;
-
-        // Function to roll the dice with customizable probabilities
+        // Function to roll the dice with a random result
         function rollDice() {
-            // Get dice type (d6, d20, etc.)
-            var diceType = parseInt(document.getElementById('diceType')?.value || 6);
+            // Trigger the rolling animation
+            document.getElementById("dice").style.animation = "roll 1s ease-in-out";
 
-            // Use the host-controlled probability
-            var customProbability = hostProbability;
-            var threshold = customProbability / 100;
+            // After animation finishes, set the dice result
+            setTimeout(function() {
+                var diceType = parseInt(document.getElementById('diceType').value || 6);
 
-            // Generate a random number between 0 and 1 to apply probability
-            var randomChance = Math.random();
-            var result;
+                // Generate a random roll based on dice type
+                var result = Math.floor(Math.random() * diceType) + 1;
 
-            if (randomChance < threshold) {
-                // If the random chance is below the threshold, result is 1
-                result = 1;
-            } else {
-                // Otherwise, roll the dice normally
-                result = Math.floor(Math.random() * diceType) + 1;
-            }
+                // Display the result in the dice div
+                document.getElementById('dice').innerText = result;
+                document.getElementById('result').innerText = result;
 
-            // Display the result
-            document.getElementById('result').innerText = result;
+                // Record the roll in history
+                recordHistory(result);
 
-            // Record the roll in history
-            recordHistory(result);
-
-            // Send data to Google Sheets
-            sendToGoogleSheets(diceType, result);
+                // Send data to Google Sheets
+                sendToGoogleSheets(diceType, result);
+            }, 1000); // Wait for animation duration to finish before setting the result
         }
 
         // Function to record the roll in history
