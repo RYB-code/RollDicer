@@ -116,3 +116,29 @@
     </script>
 </body>
 </html>
+// Function to send data (dice roll result) to Google Sheets
+function sendToGoogleSheets(diceType, rollResult) {
+    // This is where you use the Deployment URL from your Google Apps Script.
+    var url = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec";  // Replace with YOUR actual URL
+
+    var data = {
+        diceType: diceType,
+        rollResult: rollResult
+    };
+
+    // Use the Fetch API to send a POST request to the Google Apps Script Web App
+    fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)  // Send the data as JSON
+    })
+    .then(response => response.json())  // Handle the response
+    .then(responseData => {
+        console.log('Data successfully sent to Google Sheets:', responseData);
+    })
+    .catch(error => {
+        console.error('Error sending data to Google Sheets:', error);
+    });
+}
