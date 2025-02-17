@@ -100,7 +100,7 @@
 
         // Function to send data to Google Sheets
         function sendToGoogleSheets(diceType, rollResult) {
-            var url = "https://script.google.com/macros/s/AKfycbzjN1V6DTc05Z6XSUCWFQ4BLoOPca3C3Surm6EruLtXVaWN8zOoc8SiAAWedkoEfEjC/exec";  // Your Google Apps Script URL
+            var url = "https://script.google.com/macros/s/AKfycbzjN1V6DTc05Z6XSUCWFQ4BLoOPca3C3Surm6EruLtXVaWN8zOoc8SiAAWedkoEfEjC/exec";  // Replace with your actual Google Apps Script Web URL
 
             var data = {
                 diceType: diceType,
@@ -123,22 +123,6 @@
                 console.error('Error sending data to Google Sheets:', error);
             });
         }
-
-        // Function to check if the user is the host (via URL parameter)
-        function checkHost() {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.has('host') && urlParams.get('host') === 'true') {
-                document.getElementById('hostSettings').style.display = 'block';
-                document.getElementById('probability').addEventListener('input', function() {
-                    hostProbability = parseInt(document.getElementById('probability').value);
-                });
-            } else {
-                document.getElementById('hostSettings').style.display = 'none';
-            }
-        }
-
-        // Check if the user is the host
-        checkHost();
     </script>
 </body>
 </html>
