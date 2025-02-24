@@ -7,30 +7,41 @@
     <style>
         /* Container for the prize list */
         .prize-list {
-            background-color: white;
-            border: 1px solid #ccc;
-            margin: 20px;
-            padding: 20px;
-            max-height: 0px; /* Start with minimized list */
-            overflow: hidden;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.2);
+            max-width: 300px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            z-index: 2000;
+            max-height: 40px; /* Only enough height to show the title */
+            overflow: hidden; /* Hide the list by default */
             transition: max-height 0.5s ease-in-out; /* Smooth transition */
         }
 
-        /* Title for the prize list */
         .prize-list h2 {
             font-size: 1.5rem;
+            font-weight: bold;
             margin-bottom: 10px;
         }
 
-        /* List styling */
         .prize-list ul {
             list-style-type: none;
-            padding: 0;
+            padding-left: 0;
+            margin-top: 10px; /* Add spacing between title and list */
         }
 
         .prize-list li {
-            font-size: 1.2rem;
-            margin: 5px 0;
+            font-size: 1.1rem;
+            margin: 15px 0;
+        }
+
+        .prize-list ul li:before {
+            content: "• ";
+            color: #ffeb3b; /* Yellow bullet points */
+            font-weight: bold;
         }
 
         /* Button to toggle visibility of prize list */
@@ -47,7 +58,8 @@
         #togglePrizeButton:hover {
             background-color: #45a049;
         }
-        /* Make the body and page scrollable */
+
+        /* Rest of your existing CSS */
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -60,128 +72,6 @@
             overflow-y: scroll; /* Allow scrolling */
         }
 
-        /* Prize List Style */
-        .prize-list {
-            background-color: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.2);
-            max-width: 300px;
-            margin-top: 20px;
-            margin-bottom: 20px;
-            z-index: 2000;
-            max-height: 400px;  /* Limit the height */
-            overflow-y: auto;  /* Allow scrolling within the prize list */
-        }
-
-        .prize-list h2 {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .prize-list ul {
-            list-style-type: none;
-            padding-left: 0;
-        }
-
-        .prize-list li {
-            font-size: 1.1rem;
-            margin: 15px 0;
-        }
-
-        .prize-list ul li:before {
-            content: "• ";
-            color: #ffeb3b; /* Yellow bullet points */
-            font-weight: bold;
-        }
-
-        /* Pop-up Style */
-        .popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: linear-gradient(145deg, #ff8a00, #e52e71);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            animation: fadeIn 0.5s ease-out;
-            z-index: 1000;
-        }
-
-        .popup h2 {
-            font-size: 1.5em;
-            font-weight: bold;
-            color: #fff;
-            margin-bottom: 10px;
-        }
-
-        .popup h3 {
-            font-size: 2em;
-            font-weight: bold;
-            color: #fff;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .popup h4 {
-            font-size: 1.3em;
-            font-weight: bold;
-            color: #fff;
-            margin-bottom: 10px;
-        }
-
-        .popup ul {
-            list-style-type: none;
-            padding-left: 0;
-            margin-bottom: 20px;
-        }
-
-        .popup ul li {
-            font-size: 1.2rem;
-            margin: 10px 0;
-        }
-
-        .popup button {
-            padding: 12px 24px;
-            background-color: #ff5c8f;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1.1em;
-            transition: 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .popup button:hover {
-            background-color: #e52e71;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-
-        /* Rest of your existing CSS */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            flex-direction: column;
-            position: relative;
-        }
-
         .logo {
             position: absolute;
             top: 20px;
@@ -192,6 +82,7 @@
 
         .dice-container {
             display: flex;
+            flex-direction: column; /* Stack dice and button vertically */
             justify-content: center;
             align-items: center;
             margin: 20px;
@@ -320,6 +211,7 @@
         }
 
         .roll-button {
+            margin-top: 20px; /* Add space between dice and button */
             padding: 10px 20px;
             background-color: #4CAF50;
             color: white;
@@ -419,48 +311,77 @@
             background-color: #45a049;
         }
 
-        .congratulations-ribbon {
-            position: absolute;
-            top: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #ffeb3b;
-            padding: 15px 30px;
-            font-size: 1.5rem;
-            font-weight: bold;
+        .popup {
+           display: none; /* Hide the pop-up initially */
+           position: fixed;
+           top: 50%;
+           left: 50%;
+           transform: translate(-50%, -50%);
+           width: 90%;
+           max-width: 400px;
+           height: auto;
+           background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+           border-radius: 10px;
+           color: white;
+           z-index: 1000;
+           box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.5);
+           animation: popup-anim 0.5s ease-out;
+           padding: 20px;
+           text-align: center;
+        }
+
+        @keyframes popup-anim {
+            from {
+                transform: translate(-50%, -60%) scale(0.7); /* Start from a smaller size */
+                opacity: 0;
+            }
+            to {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .popup h2, .popup h3 {
+            font-size: 1.8rem;
+            margin: 10px 0;
+        }
+
+        .popup button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            font-size: 1.2rem;
+            border: none;
             border-radius: 5px;
-            display: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .popup button:hover {
+            background-color: #45a049;
+        }
+
+        .popup button:active {
+            background-color: #388e3c;
+        }
+
+        .popup button:focus {
+            outline: none;
+        }
+
+        .popup-content {
+            padding: 10px;
         }
 
         .fireworks {
             position: absolute;
             top: 0;
-            left: 50%;
-            transform: translateX(-50%);
+            left: 0;
             width: 100%;
             height: 100%;
-            z-index: 9999;
+            z-index: -1; /* Place the fireworks behind the content */
             pointer-events: none;
-        }
-
-        .firework {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: rgba(255, 0, 0, 1);
-            border-radius: 50%;
-            animation: firework-animation 1s infinite;
-        }
-
-        @keyframes firework-animation {
-            0% {
-                transform: translateY(0) scale(1);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-300px) scale(2);
-                opacity: 0;
-            }
         }
 
     </style>
@@ -471,11 +392,9 @@
         <h1>Welcome to Our Prize Giveaway!</h1>
         
         <!-- Prize List Section with a toggle button -->
-        <div class="prize-list" id="prizeList">
-            <!-- Button to toggle visibility of prize list -->
-            <button id="togglePrizeButton">Show Prize List</button>
-            
-            <h2>Prize List</h2>
+        <button id="togglePrizeButton">Show Prize List</button>
+        <div id="prizeList" class="prize-list">
+            <h2>FULL PRIZE LIST</h2> <!-- Default title -->
             <ul>
                 <li>Prize 1: ANGPAO $38</li>
                 <li>Prize 2: DEPOSIT BONUS 30%</li>
@@ -485,6 +404,7 @@
                 <li>Prize 6: DEPOSIT BONUS 50%</li>
             </ul>
         </div>
+    </div>
 
     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQT8Be2A17SDMoWohdOUSYtb4o6SXsW3XLeWQ&s" alt="Logo" class="logo">
 
@@ -504,9 +424,8 @@
         <div class="dice" id="dice1">
             <!-- Dot pattern for dice faces will be added dynamically -->
         </div>
+        <button class="roll-button" id="rollButton" disabled>Roll Dice</button>
     </div>
-
-    <button class="roll-button" id="rollButton" disabled>Roll Dice</button>
 
     <div id="warning" class="warning">Only One Attempt!</div>
 
@@ -515,7 +434,7 @@
         <div id="history" class="history">No rolls yet.</div>
     </div>
 
-    <div id="congratulations" class="congratulations-ribbon">Congratulations!</div>
+    <div id="congratulations" class="congratulations-ribbon"></div>
 
     <div id="fireworks" class="fireworks"></div>
 
@@ -532,7 +451,6 @@
         import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-database.js";
 
         // Firebase Config
-        // Firebase Config (Ensure this is correct)
         const firebaseConfig = {
             apiKey: "AIzaSyDlKAT8l9kp_X1RXdSV6fOfwGZrt2o6pZA",
             authDomain: "roll-result.firebaseapp.com",
@@ -572,20 +490,20 @@
                 alert('Please fill in both fields!');
             }
         }
+
         // Toggle button functionality
         document.getElementById('togglePrizeButton').addEventListener('click', function () {
             const prizeList = document.getElementById('prizeList');
             const toggleButton = document.getElementById('togglePrizeButton');
-        
-            if (prizeList.style.maxHeight === '0px') {
-                prizeList.style.maxHeight = '400px';  // Show the list
-                toggleButton.textContent = 'Hide Prize List';  // Change button text
+
+            if (prizeList.style.maxHeight === '40px' || prizeList.style.maxHeight === '') {
+                prizeList.style.maxHeight = '400px'; // Expand to show full list
+                toggleButton.textContent = 'Hide Prize List'; // Change button text
             } else {
-                prizeList.style.maxHeight = '0px';  // Hide the list
-                toggleButton.textContent = 'Show Prize List';  // Change button text
+                prizeList.style.maxHeight = '40px'; // Collapse to show only the title
+                toggleButton.textContent = 'Show Prize List'; // Change button text back
             }
         });
-
 
         // Add event listener to the Roll Dice button
         document.getElementById('rollButton').addEventListener('click', rollDice);
@@ -598,6 +516,9 @@
             const rollButton = document.getElementById('rollButton');
             const congratulationsRibbon = document.getElementById('congratulations');
             const fireworks = document.getElementById('fireworks');
+            const popup = document.getElementById('popup');
+            const popupResult = document.getElementById('popupResult');
+            const closePopup = document.getElementById('closePopup');
 
             let roll1;
 
@@ -631,13 +552,20 @@
                 updateHistory();
 
                 // Show the stylish pop-up with results
-                showPopup(roll1);
+                popupResult.textContent = `You rolled a ${roll1}!`; // Show the result in the pop-up
+                popup.style.display = 'block'; // Display the pop-up
+
+                // Close the pop-up when the "OK" button is clicked
+                closePopup.addEventListener('click', () => {
+                    popup.style.display = 'none'; // Hide the pop-up
+                });
 
                 // Disable the button and set flag
                 hasRolled = true;
                 rollButton.disabled = true;
             }, rollingTime);
         }
+
 
         function weightedRoll() {
             const rollValues = [1, 2, 3, 4, 5, 6];
@@ -719,22 +647,23 @@
             }, 50000);
         }
 
-        function showPopup(roll) {
-            const popup = document.getElementById('popup');
-            const popupResult = document.getElementById('popupResult');
-            const closePopup = document.getElementById('closePopup');
+            function showPopup(roll) {
+                const popup = document.getElementById('popup');
+                const popupResult = document.getElementById('popupResult');
+                const closePopup = document.getElementById('closePopup');
 
-            // Set the roll result text
-            popupResult.textContent = `You rolled a ${roll}!`;
+                // Set the roll result text
+                popupResult.textContent = `You rolled a ${roll}!`;
 
-            // Show the pop-up
-            popup.style.display = 'block';
+                // Show the pop-up
+                popup.style.display = 'block'; // Make sure the popup is shown
 
-            // Close the pop-up when the "OK" button is clicked
-            closePopup.addEventListener('click', () => {
-                popup.style.display = 'none';
-            });
-        }
+                // Close the pop-up when the "OK" button is clicked
+                closePopup.addEventListener('click', () => {
+                    popup.style.display = 'none'; // Hide the pop-up
+                });
+            }
+
 
     </script>
 </body>
