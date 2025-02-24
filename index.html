@@ -5,6 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dice Roller</title>
     <style>
+        /* Container for the prize list */
+        .prize-list {
+            background-color: white;
+            border: 1px solid #ccc;
+            margin: 20px;
+            padding: 20px;
+            max-height: 0px; /* Start with minimized list */
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out; /* Smooth transition */
+        }
+
+        /* Title for the prize list */
+        .prize-list h2 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        /* List styling */
+        .prize-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .prize-list li {
+            font-size: 1.2rem;
+            margin: 5px 0;
+        }
+
+        /* Button to toggle visibility of prize list */
+        #togglePrizeButton {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        #togglePrizeButton:hover {
+            background-color: #45a049;
+        }
         /* Make the body and page scrollable */
         body {
             font-family: Arial, sans-serif;
@@ -420,22 +462,29 @@
                 opacity: 0;
             }
         }
+
     </style>
 </head>
 <body>
 
-    <!-- Prize List Section -->
-    <div class="prize-list">
-    <h2>Prize List</h2>
-    <ul>
-        <li>Prize 1: ANGPAO $38</li>
-        <li>Prize 2: DEPOSIT BONUS 30%</li>
-        <li>Prize 3: ANGPAO $68</li>
-        <li>Prize 4: REBORN BONUS 70%</li>
-        <li>Prize 5: ANGPAO $138</li>
-        <li>Prize 6: DEPOSIT BONUS 50%</li>
-    </ul>
- </div>
+    <div class="container">
+        <h1>Welcome to Our Prize Giveaway!</h1>
+        
+        <!-- Prize List Section with a toggle button -->
+        <div class="prize-list" id="prizeList">
+            <!-- Button to toggle visibility of prize list -->
+            <button id="togglePrizeButton">Show Prize List</button>
+            
+            <h2>Prize List</h2>
+            <ul>
+                <li>Prize 1: ANGPAO $38</li>
+                <li>Prize 2: DEPOSIT BONUS 30%</li>
+                <li>Prize 3: ANGPAO $68</li>
+                <li>Prize 4: REBORN BONUS 70%</li>
+                <li>Prize 5: ANGPAO $138</li>
+                <li>Prize 6: DEPOSIT BONUS 50%</li>
+            </ul>
+        </div>
 
     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQT8Be2A17SDMoWohdOUSYtb4o6SXsW3XLeWQ&s" alt="Logo" class="logo">
 
@@ -483,7 +532,7 @@
         import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-database.js";
 
         // Firebase Config
-// Firebase Config (Ensure this is correct)
+        // Firebase Config (Ensure this is correct)
         const firebaseConfig = {
             apiKey: "AIzaSyDlKAT8l9kp_X1RXdSV6fOfwGZrt2o6pZA",
             authDomain: "roll-result.firebaseapp.com",
@@ -523,6 +572,20 @@
                 alert('Please fill in both fields!');
             }
         }
+        // Toggle button functionality
+        document.getElementById('togglePrizeButton').addEventListener('click', function () {
+            const prizeList = document.getElementById('prizeList');
+            const toggleButton = document.getElementById('togglePrizeButton');
+        
+            if (prizeList.style.maxHeight === '0px') {
+                prizeList.style.maxHeight = '400px';  // Show the list
+                toggleButton.textContent = 'Hide Prize List';  // Change button text
+            } else {
+                prizeList.style.maxHeight = '0px';  // Hide the list
+                toggleButton.textContent = 'Show Prize List';  // Change button text
+            }
+        });
+
 
         // Add event listener to the Roll Dice button
         document.getElementById('rollButton').addEventListener('click', rollDice);
